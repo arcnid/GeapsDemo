@@ -1,0 +1,194 @@
+/* nav color is #ee6e73 */
+
+/* compliments might be 
+#6eb3ee
+#6eeea9 */
+body {
+	background-color: #eeeeee;
+}
+nav {
+	margin-bottom: 0.5em;
+}
+.needle-gauge {
+	position: absolute;
+	margin-left: 255px;
+	margin-top: 57px;
+}
+#tractor-gauge {
+	margin-top: 30px;
+}
+.form-section {
+	width: 30%;
+	padding: 0;
+}
+#tractor-motor-section {
+	min-width: 450px;
+	margin-left: -16px;
+}
+.row {
+	margin: 0;
+}
+#full-stop {
+	background-color: #ee6e73;
+}
+#sweep-stop {
+	background-color: #ee6e73;
+}
+
+#tractor-stop {
+	background-color: #ee6e73;
+}
+.fieldset {
+	border-radius: 7px;
+	border-color: #ef9a9a;
+	margin-left: 5%;
+	margin-right: auto;
+	min-width: 300px;
+	border: 1;
+	min-height: 250px;
+	padding-left: 25px;
+	padding-right: 25px;
+	padding-top: 10px;
+}
+
+.form-inputs {
+	display: inline;
+	text-align: center;
+}
+
+.btn {
+	background-color: #6eb3ee;
+}
+.start-stop {
+	width: 100px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.grid {
+	display: inline-flex;
+	align-items: center;
+	top: 505px;
+}
+#btn-group-vertical {
+	width: 50%;
+	margin-right: 10%;
+	top: 505px;
+	justify-content: center;
+}
+
+.gauge-container > .gauge > .dial {
+	stroke: #334455;
+	stroke-width: 2;
+}
+.gauge-container > .gauge > .value {
+	stroke: rgb(47, 227, 255);
+	stroke-width: 2;
+}
+.gauge-container > .gauge > .value-text {
+	fill: rgb(47, 227, 255);
+	font-family: sans, "sans-serif";
+	font-weight: bold;
+	font-size: 0.6em;
+}
+
+#svg-container {
+	width: 800px;
+	height: 800px;
+	position: absolute;
+	justify-content: center;
+	align-items: center;
+}
+
+#line {
+	stroke: #6eb3ee;
+	stroke-width: 2;
+	position: relative;
+	z-index: 100;
+}
+
+#sump-group {
+	transform: translateY(-805px);
+	display: block;
+	z-index: -100;
+}
+
+#sump {
+	stroke: #6eeea9;
+	stroke-width: 2;
+	translate: 10px;
+}
+#sump2 {
+	stroke: #6eeea9;
+	stroke-width: 2;
+	translate: 30px;
+}
+#sump3 {
+	stroke: #6eeea9;
+	stroke-width: 2;
+	translate: 50px;
+}
+#sump4 {
+	stroke: #6eeea9;
+	stroke-width: 2;
+	translate: 70px;
+	z-index: -100;
+}
+
+#sweep-map-container {
+	margin-right: 60%;
+	margin-top: 0px;
+}
+#tractor-gauge {
+	margin-left: 362px;
+}
+
+@media only screen and (max-width: 950px) {
+	/* center dash on window size change */
+	#dash {
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+		width: 50%;
+		text-align: center;
+	}
+	/* Remove Gauges from dash */
+	.needle-gauge {
+		display: none;
+	}
+	#svg-container {
+		display: block;
+		margin-left: -180px;
+		margin-right: auto;
+		margin-top: -400px;
+		width: 300px;
+		height: 300px;
+	}
+	.form-block {
+		margin-top: 400px;
+		margin-left: -55px;
+	}
+
+	/* resize and reposition tractor motor section to be inline */
+	#tractor-motor-section {
+		min-width: 300px;
+		margin-left: -13px;
+	}
+	#tractor-parent {
+		display: inline;
+	}
+	.tractor-buttons {
+		display: contents;
+		width: 100%;
+	}
+}
+
+@media only screen and (max-width: 1200px) {
+	.needle-gauge {
+		display: none;
+	}
+	#svg-container {
+		width: 400px;
+		height: 400px;
+	}
+	/* resize and reposition tractor motor section to be inline */
+}

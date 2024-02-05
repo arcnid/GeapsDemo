@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+
+        
+         <!-- Compiled and minified CSS Material UI-->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+        <!-- Compiled and minified JavaScript Material UI-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+        
+
+        <!-- CSV Animated Gauge Library-->
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js"></script>
+
+
+        <title>Sweep Dashboard</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <link rel="stylesheet" href="./style.css"></link>
+    </head>    
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <nav>
+          <div class="nav-wrapper"> 
+            <ul class="left">
+              <li class="active"><a href="index.html">Dash</a></li>
+              <li><a href="alarms.html">Alarms</a></li>
+              <li ><a href="settings.html">Settings</a></li>
+            </ul>
+          </div>
+        </nav>
+        <div id="dash" class="">
+          <div class="right" id="sweep-map-container">
+            <div id="svg-container">
+              <svg id="clock" width="100%" height="100%" viewBox="0 0 100 100">
+                <circle
+                  cx="50"
+                  cy="50"
+                  r="45"
+                  fill="#eee"
+                  stroke="#333"
+                  stroke-width="2"
+                ></circle>
+                <line
+                  id="line"
+                  x1="50"
+                  y1="50"
+                  x2="50"
+                  y2="6"
+                  transform="rotate(0 50 50)"
+                ></line>
+              </svg>
+              
+            </div>
+          </div>
+          <div class="form-block">
+            <div class='row'>
+              <div class="form-section col s1" id="sweep-settings">
+                <form>
+                  <div class="fieldset card" id="sweep-fields">
+                    <legend>Sweep Settings</legend>
+                      <div class="form-inputs" id="sweep-group">
+                        <div class="input-field outlined">
+                          <input id="target-flow-rate" type="text" class="textbox" class="validate" placeholder="30"/>
+                          <label for="target-flow-rate">Target Flow Rate (m/s)</label>
+                        </div>
+                        <div class="input-field">
+                          <input id="actual-flow-rate" type="text" class="textbox" class="validate" placeholder="28"/>
+                          <label for="actual-flow-rate"> Actual Flow Rate (m/s)</label>
+                        </div>
+                        <div class="input-field">
+                          <input id="rotation-angle" type="text" class="textbox" placeholder="359"/>
+                          <label for="rotation-angle">Rotation Angle</label>
+                        </div>
+                        <div class="input-field">
+                            <div class="switch">
+                              <label>
+                                Stop
+                                <input type="checkbox" id="StartSw">
+                                <span class="lever"></span>
+                                Start
+                              </label>
+                            </div>
+                            
+                            <div class="switch">
+                              <label>
+                                BWD
+                                <input type="checkbox" id="FwdDirSw" checked>
+                                <span class="lever" ></span>
+                                FWD
+                              </label>
+                            </div>
+                            <br>
+                        </div>
+                      </div>
+                    </div>
+                </form>
+              </div>
+              
+            </div>
+            <div class="row">
+              <div class="form-section col s1" id="sweep-motor-section">
+                <form>
+                    <div class="fieldset card" id="sweep-motor-fields">
+                      <legend>Sweep Motor</legend>
+                      <div class="form-inputs grid">
+                        <div id="btn-group-vertical">
+                          <a class="waves-effect waves-light btn start-stop">Start</a>
+                            <a class="waves-effect waves-light btn start-stop" id="sweep-stop">Stop</a>
+                        </div>
+                        <div>
+                          <div class="input-field">
+                            <input id="sweep-motor-load" type="text" class="textbox" placeholder="4"/>
+                            <label for="sweep-motor-load">Motor Load</label>
+                          </div>
+                          <div class="input-field">
+                            <input id="set-point-1" type="text" class="textbox"/>
+                            <label for="set-point-1">Set Point 1</label>
+                            
+                          </div>
+                          <div class="input-field">
+                            <input id="set-point-2" type="text" class="textbox"/>
+                            <label for="set-point-2">Set Point 2</label>
+                            
+                          </div>
+                          <div class="input-field">
+                            <input id="sweep-speed" type="text" class="textbox" placeholder="4"/>
+                            <label for="sweep-speed">Sweep Speed</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </form>
+              </div>
+              <div class='needle-gauge col id="tractor-gauge'>
+                <input type="range" id="needleSlider" min="0" max="1" step="0.01" value="0.4" style="display: none;">
+                <span id="sliderValue" style="display: none;">0.5</span>
+                <svg id="needleGauge" width="300" height="200" style="transform: rotate(90deg);""></svg>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-section col s1" id="tractor-motor-section">
+                <form>
+                  <div class="fieldset card" id="tractor-motor-fields">
+                    <legend>Tractor Motor</legend>
+                    <div class="form-inputs grid" id="tractor-parent">
+                      <div id="btn-group-vertical" class="tractor-buttons">
+                        <a class="waves-effect waves-light btn start-stop">AutoMode</a>
+                          <a class="waves-effect waves-light btn start-stop">ManMode</a>
+                      </div>
+                      <div id="btn-group-vertical" class="tractor-buttons">
+                        <a class="waves-effect waves-light btn start-stop">Run FWD</a>
+                          <a class="waves-effect waves-light btn start-stop">Run BWD</a>
+                          <a class="waves-effect waves-light btn start-stop" id="tractor-stop">Stop</a>
+                      </div>
+                      <div>
+                        <div class="input-field">
+                          <input id="tractor-motor-load" type="text" class="textbox" placeholder="4"/>
+                          <label for="tractor-motor-load">Motor Load</label>
+                      
+                        </div>
+                        <div class="input-field">
+                          <input id="tractor-motor-load" type="text" class="textbox" placeholder="4"/>
+                          <label for="tractor-motor-speed">Speed</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class='needle-gauge col' id="tractor-gauge">
+                <input type="range" id="needle-slider-tractor" min="0" max="1" step="0.01" value="0.4" style="display: none;">
+                <span id="slider-value-tractor" style="display: none;">0.5</span>
+                <svg id="needle-gauge-tractor" width="300" height="200" style="transform: rotate(90deg);""></svg>
+              </div>
+          </div>
+
+
+          
+          </div>
+         
+        </div>
+      <script type="module" src="src/index.js"></script>
+      <script type="module" src="src/guage.js"></script>
+      <script type="module" src="src/gauge2.js"></script>
+    
+    </body>
+</html>
